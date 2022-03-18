@@ -1,11 +1,11 @@
 package com.sdimosikvip.news.model
 
-import com.sdimosikvip.news.base.BaseModel
+import com.sdimosikvip.news.base.BaseDiffModel
 
 data class ItemNews(
-    val urlBase: String,
+    val urlRedirect: String,
     val urlImg: String?,
     val tittle: String,
-) : BaseModel {
-    val id: String = urlBase
+) : BaseDiffModel {
+    override val id: Long = urlRedirect.hashCode().toLong()
 }

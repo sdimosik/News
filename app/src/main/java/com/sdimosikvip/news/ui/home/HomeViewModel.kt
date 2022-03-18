@@ -6,8 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.sdimosikvip.news.base.BaseViewModel
 import com.sdimosikvip.news.model.ItemListNews
 import com.sdimosikvip.news.model.ItemNews
+import com.sdimosikvip.news.model.ProgressItemNews
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -23,6 +25,7 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch() {
             withContext(Dispatchers.IO) {
+                _list.postValue(getLoaderItems())
                 val items = getItems()
                 _list.postValue(items)
             }
@@ -30,6 +33,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getItems(): List<ItemListNews> {
+        delay(2000)
         return listOf(
             ItemListNews(
                 listOf(
@@ -150,6 +154,23 @@ class HomeViewModel @Inject constructor(
                     )
                 ),
                 "Category 4"
+            )
+        )
+    }
+
+    private suspend fun getLoaderItems(): List<ItemListNews> {
+        return listOf(
+            ItemListNews(
+                tittle = "Tittle 1",
+                list = IntRange(1, 3).map { ProgressItemNews }
+            ),
+            ItemListNews(
+                tittle = "Tittle 2",
+                list = IntRange(1, 3).map { ProgressItemNews }
+            ),
+            ItemListNews(
+                tittle = "Tittle 3",
+                list = IntRange(1, 3).map { ProgressItemNews }
             )
         )
     }
