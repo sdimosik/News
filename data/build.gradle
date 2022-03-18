@@ -1,0 +1,54 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+android {
+    compileSdk Android.compileSdk
+
+    defaultConfig {
+        minSdk Android.minSdk
+        targetSdk Android.targetSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation project(Modules.domain)
+
+    implementation DI.hilt_core
+    kapt DI.hilt_android_compiler
+
+    implementation Network.retrofit
+    implementation Network.retrofit_converter
+    implementation Network.okhttp
+
+    implementation DB.room
+    implementation DB.room_ktx
+    kapt DB.room_compiler
+
+    implementation Other.timber
+
+    testImplementation UnitTest.junit4
+    androidTestImplementation UnitTest.junit_ext
+    androidTestImplementation UITest.espresso
+}
