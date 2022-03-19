@@ -18,7 +18,7 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
     @Inject
     lateinit var glide: RequestManager
 
-    private val adapter by lazy {
+    private val homeAdapter by lazy {
         MainHomeAdapter(glide, homeViewModel.scrollStates)
     }
 
@@ -27,7 +27,7 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
 
         with(binding) {
             recyclerView.apply {
-                swapAdapter(adapter, true)
+                swapAdapter(homeAdapter, true)
                 setHasFixedSize(true)
                 setItemViewCacheSize(20)
             }
@@ -38,7 +38,7 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
         super.subscribe()
 
         homeViewModel.list.observe(viewLifecycleOwner) {
-            adapter.apply {
+            homeAdapter.apply {
                 items = it
             }
         }
