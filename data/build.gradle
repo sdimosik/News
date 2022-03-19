@@ -14,6 +14,10 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField "String", "PARAMETR_API_TOKET_NEWS", "\"apiKey\""
+        buildConfigField "String", "API_TOKEN_NEWS", "\"301090fddc8a43f186bbe100ebe220c4\""
+        buildConfigField "String", "BASE_URL_NEWS", "\"https://newsapi.org/v2/\""
     }
 
     buildTypes {
@@ -34,6 +38,7 @@ android {
 dependencies {
 
     implementation project(Modules.domain)
+    implementation project(Modules.common)
 
     implementation DI.hilt_core
     kapt DI.hilt_android_compiler

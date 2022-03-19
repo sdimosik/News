@@ -10,9 +10,10 @@ java {
 }
 
 dependencies {
-    implementation project(Modules.common)
 
-    implementation Multithreading.coroutines
+    implementation Network.retrofit
+    implementation Network.retrofit_converter
+    implementation Network.okhttp
 
     implementation DI.hilt_core
     kapt DI.hilt_android_compiler

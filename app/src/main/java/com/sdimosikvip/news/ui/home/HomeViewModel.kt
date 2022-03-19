@@ -3,20 +3,20 @@ package com.sdimosikvip.news.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.sdimosikvip.common.model.AvailableCategory
+import com.sdimosikvip.domain.interactor.NewsInteractor
 import com.sdimosikvip.news.base.BaseViewModel
+import com.sdimosikvip.news.mapper.newsDomainToItemNews
 import com.sdimosikvip.news.model.ItemListNews
 import com.sdimosikvip.news.model.ItemNews
 import com.sdimosikvip.news.model.ProgressItemNews
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-
+    private val newsInteractor: NewsInteractor
 ) : BaseViewModel() {
 
     private val _list = MutableLiveData<List<ItemListNews>>()
@@ -33,129 +33,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getItems(): List<ItemListNews> {
-        delay(2000)
-        return listOf(
-            ItemListNews(
-                listOf(
-                    ItemNews(
-                        "1",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "2",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "3",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "4",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "5",
-                        "",
-                        "Some news text. Some text he he"
-                    )
-                ),
-                "Category 1"
-            ),
-            ItemListNews(
-                listOf(
-                    ItemNews(
-                        "1",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "2",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "3",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "4",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "5",
-                        "",
-                        "Some news text. Some text he he"
-                    )
-                ),
-                "Category 2"
-            ),
-            ItemListNews(
-                listOf(
-                    ItemNews(
-                        "1",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "2",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "3",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "4",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "5",
-                        "",
-                        "Some news text. Some text he he"
-                    )
-                ),
-                "Category 3"
-            ),
-            ItemListNews(
-                listOf(
-                    ItemNews(
-                        "1",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "2",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "3",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "4",
-                        "",
-                        "Some news text. Some text he he"
-                    ),
-                    ItemNews(
-                        "5",
-                        "",
-                        "Some news text. Some text he he"
-                    )
-                ),
-                "Category 4"
-            )
-        )
+        val result = newsInteractor.getTopHeadLines(AvailableCategory.BUSINESS)
+        return listOf(newsDomainToItemNews(result, AvailableCategory.BUSINESS.value))
     }
 
     private suspend fun getLoaderItems(): List<ItemListNews> {

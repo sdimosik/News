@@ -47,6 +47,7 @@ dependencies {
 
     implementation project(Modules.domain)
     implementation project(Modules.data)
+    implementation project(Modules.common)
 
     implementation Androidx.app_compat
     implementation Androidx.constraintlayout
