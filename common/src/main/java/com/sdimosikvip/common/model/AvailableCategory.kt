@@ -12,5 +12,4 @@ enum class AvailableCategory(
     @SerializedName("science") SCIENCE("science"),
     @SerializedName("sports") SPORTS("sports"),
     @SerializedName("technology") TECHNOLOGY("technology"),
-    @SerializedName("default") DEFAULT("default"),
 }

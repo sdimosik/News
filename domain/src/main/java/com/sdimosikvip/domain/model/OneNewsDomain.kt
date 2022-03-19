@@ -4,4 +4,5 @@ data class OneNewsDomain (
     val urlRedirect: String,
     val urlImg: String?,
     val tittle: String,
+    val timestamp: Long
 )

@@ -5,7 +5,6 @@ import com.sdimosikvip.common.model.AvailableCountry
 import com.sdimosikvip.common.model.AvailableLanguage
 import com.sdimosikvip.common.model.Outcome
 import com.sdimosikvip.domain.model.NewsDomain
-import com.sdimosikvip.domain.model.OneNewsDomain
 
 interface NewsRemoteSource {
 

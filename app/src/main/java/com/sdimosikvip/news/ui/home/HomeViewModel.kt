@@ -8,7 +8,6 @@ import com.sdimosikvip.domain.interactor.NewsInteractor
 import com.sdimosikvip.news.base.BaseViewModel
 import com.sdimosikvip.news.mapper.newsDomainToItemNews
 import com.sdimosikvip.news.model.ItemListNews
-import com.sdimosikvip.news.model.ItemNews
 import com.sdimosikvip.news.model.ProgressItemNews
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -33,8 +32,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getItems(): List<ItemListNews> {
-        val result = newsInteractor.getTopHeadLines(AvailableCategory.BUSINESS)
-        return listOf(newsDomainToItemNews(result, AvailableCategory.BUSINESS.value))
+        val result = newsInteractor.getAllHotNews()
+        return result.map { newsDomainToItemNews(it, AvailableCategory.BUSINESS.value) }
     }
 
     private suspend fun getLoaderItems(): List<ItemListNews> {

@@ -6,6 +6,7 @@ data class ItemNews(
     val urlRedirect: String,
     val urlImg: String?,
     val tittle: String,
+    val timestamp: Long
 ) : BaseDiffModel {
     override val id: Long = urlRedirect.hashCode().toLong()
 }

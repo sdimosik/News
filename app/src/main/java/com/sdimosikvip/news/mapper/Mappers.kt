@@ -14,4 +14,5 @@ fun oneNewsDomainToItemNews(oneNewsDomain: OneNewsDomain): ItemNews = ItemNews(
     urlRedirect = oneNewsDomain.tittle,
     urlImg = oneNewsDomain.urlImg,
     tittle = oneNewsDomain.tittle,
+    timestamp = oneNewsDomain.timestamp
 )
