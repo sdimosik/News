@@ -43,12 +43,19 @@ class NewsInteractorImpl @Inject constructor(
 
         val listDef: MutableList<Deferred<NewsDomain>> = mutableListOf()
         return coroutineScope {
-            AvailableCategory.values().forEach {
-                val res = async { newsRepository.getTopHeadLines(it, language, country) }
-                synchronized(listDef) {
-                    listDef.add(res)
+            AvailableCategory.values()
+                .sortedBy { it.value }
+                .forEach {
+                    val deferred = async {
+                        val response = newsRepository.getTopHeadLines(it, language, country)
+                        response.list = response.list.sortedByDescending { it.timestamp }
+                        response.category = it
+                        return@async response
+                    }
+                    synchronized(listDef) {
+                        listDef.add(deferred)
+                    }
                 }
-            }
 
             return@coroutineScope listDef.awaitAll()
         }

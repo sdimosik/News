@@ -37,6 +37,7 @@ object MainDelegates {
     ) {
         bind {
             binding.tittle.text = item.tittle
+            binding.time.text = item.timestampString
         }
     }
 

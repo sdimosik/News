@@ -1,5 +1,8 @@
 package com.sdimosikvip.domain.model
 
+import com.sdimosikvip.common.model.AvailableCategory
+
 data class NewsDomain(
-    val list: List<OneNewsDomain>,
+    var list: List<OneNewsDomain>,
+    var category: AvailableCategory = AvailableCategory.BUSINESS
 )

@@ -4,15 +4,17 @@ import com.sdimosikvip.domain.model.NewsDomain
 import com.sdimosikvip.domain.model.OneNewsDomain
 import com.sdimosikvip.news.model.ItemListNews
 import com.sdimosikvip.news.model.ItemNews
+import com.sdimosikvip.news.utils.formatDayMonthTime
 
-fun newsDomainToItemNews(newsDomain: NewsDomain, tittle: String): ItemListNews = ItemListNews(
+fun newsDomainToItemNews(newsDomain: NewsDomain): ItemListNews = ItemListNews(
     list = newsDomain.list.map { oneNewsDomainToItemNews(it) },
-    tittle = tittle
+    tittle = newsDomain.category.value
 )
 
 fun oneNewsDomainToItemNews(oneNewsDomain: OneNewsDomain): ItemNews = ItemNews(
     urlRedirect = oneNewsDomain.tittle,
     urlImg = oneNewsDomain.urlImg,
     tittle = oneNewsDomain.tittle,
-    timestamp = oneNewsDomain.timestamp
+    timestamp = oneNewsDomain.timestamp,
+    timestampString = formatDayMonthTime(oneNewsDomain.timestamp)
 )

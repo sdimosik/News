@@ -30,12 +30,23 @@
             android:ellipsize="end"
             android:gravity="right"
             android:maxLines="9"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/time"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/center_guideline"
             tools:ignore="RtlHardcoded"
             tools:text="С другой стороны рамки и место обучения кадров способствует подготовки и реализации модели развития. С другой стороны " />
+
+        <TextView
+            android:id="@+id/time"
+            style="@style/TextView.Default.PrimaryActive.XXXS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="14 May 19:00" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/center_guideline"

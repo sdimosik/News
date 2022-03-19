@@ -27,8 +27,6 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
         super.setupViews()
 
         with(binding) {
-            val snapHelper = StartSnapHelper()
-            snapHelper.attachToRecyclerView(recyclerView)
             recyclerView.adapter = adapter
         }
     }
