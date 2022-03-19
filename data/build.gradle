@@ -16,7 +16,7 @@ android {
         consumerProguardFiles "consumer-rules.pro"
 
         buildConfigField "String", "PARAMETR_API_TOKET_NEWS", "\"apiKey\""
-        buildConfigField "String", "API_TOKEN_NEWS", "\"301090fddc8a43f186bbe100ebe220c4\""
+        buildConfigField "String", "API_TOKEN_NEWS", "\"c8872178a97b4f7ca4600631dbd244c5\""
         buildConfigField "String", "BASE_URL_NEWS", "\"https://newsapi.org/v2/\""
     }
 

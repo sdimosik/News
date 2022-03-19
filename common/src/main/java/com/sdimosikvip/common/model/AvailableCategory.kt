@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 enum class AvailableCategory(
     val value: String
 ) {
-    @SerializedName("business") BUSINESS("Business"),
-    @SerializedName("entertainment") ENTERTAINMENT("Entertainment"),
-    @SerializedName("general") GENERAL("General"),
-    @SerializedName("health") HEALTH("Health"),
-    @SerializedName("science") SCIENCE("Science"),
-    @SerializedName("sports") SPORTS("Sports"),
-    @SerializedName("technology") TECHNOLOGY("Technology"),
+    @SerializedName("business") BUSINESS("Business \uD83D\uDCBC"),
+    @SerializedName("entertainment") ENTERTAINMENT("Entertainment \uD83D\uDC40"),
+    @SerializedName("general") GENERAL("General \uD83D\uDC7D"),
+    @SerializedName("health") HEALTH("Health \uD83C\uDF33"),
+    @SerializedName("science") SCIENCE("Science \uD83E\uDD16"),
+    @SerializedName("sports") SPORTS("Sports \uD83C\uDFC5"),
+    @SerializedName("technology") TECHNOLOGY("Technology \uD83D\uDCBB"),
 }

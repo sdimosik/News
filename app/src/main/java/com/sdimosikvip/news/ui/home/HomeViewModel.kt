@@ -1,5 +1,6 @@
 package com.sdimosikvip.news.ui.home
 
+import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -22,6 +23,8 @@ class HomeViewModel @Inject constructor(
     private val _list = MutableLiveData<List<ItemListNews>>()
     val list: LiveData<List<ItemListNews>> = _list
 
+    val scrollStates = mutableMapOf<Int, Parcelable>()
+
     init {
         viewModelScope.launch() {
             withContext(Dispatchers.IO) {
@@ -40,15 +43,15 @@ class HomeViewModel @Inject constructor(
     private suspend fun getLoaderItems(): List<ItemListNews> {
         return listOf(
             ItemListNews(
-                tittle = "Tittle 1",
+                tittle = "\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25",
                 list = IntRange(1, 3).map { ProgressItemNews }
             ),
             ItemListNews(
-                tittle = "Tittle 2",
+                tittle = "\uD83C\uDF0A\uD83C\uDF0A\uD83C\uDF0A",
                 list = IntRange(1, 3).map { ProgressItemNews }
             ),
             ItemListNews(
-                tittle = "Tittle 3",
+                tittle = "\uD83D\uDC9C\uD83D\uDC9C\uD83D\uDC9C",
                 list = IntRange(1, 3).map { ProgressItemNews }
             )
         )

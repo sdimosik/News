@@ -5,7 +5,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.RequestManager
 import com.sdimosikvip.news.R
 import com.sdimosikvip.news.base.BaseFragment
-import com.sdimosikvip.news.base.StartSnapHelper
 import com.sdimosikvip.news.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -20,14 +19,18 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
     lateinit var glide: RequestManager
 
     private val adapter by lazy {
-        MainHomeAdapter()
+        MainHomeAdapter(glide, homeViewModel.scrollStates)
     }
 
     override fun setupViews() {
         super.setupViews()
 
         with(binding) {
-            recyclerView.adapter = adapter
+            recyclerView.apply {
+                swapAdapter(adapter, true)
+                setHasFixedSize(true)
+                setItemViewCacheSize(20)
+            }
         }
     }
 
