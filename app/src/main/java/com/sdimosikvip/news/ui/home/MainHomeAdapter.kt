@@ -6,10 +6,12 @@ import com.bumptech.glide.RequestManager
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.sdimosikvip.news.base.BaseDiffModel
 import com.sdimosikvip.news.base.BaseDiffUtilItemCallback
+import com.sdimosikvip.news.model.ItemNews
 
 class MainHomeAdapter(
     glide: RequestManager,
-    scrollStates: MutableMap<Int, Parcelable>
+    scrollStates: MutableMap<Int, Parcelable>,
+    onClick: (ItemNews) -> Unit
 ) : AsyncListDifferDelegationAdapter<BaseDiffModel>(BaseDiffUtilItemCallback()) {
 
     private val sharedViewPool: RecyclerView.RecycledViewPool = RecyclerView.RecycledViewPool()
@@ -19,7 +21,8 @@ class MainHomeAdapter(
             MainDelegates.newsHorizontalDelegate(
                 glide,
                 scrollStates,
-                sharedViewPool
+                sharedViewPool,
+                onClick
             )
         )
     }

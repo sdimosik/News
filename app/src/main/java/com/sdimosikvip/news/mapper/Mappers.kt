@@ -12,7 +12,7 @@ fun newsDomainToItemNews(newsDomain: NewsDomain): ItemListNews = ItemListNews(
 )
 
 fun oneNewsDomainToItemNews(oneNewsDomain: OneNewsDomain): ItemNews = ItemNews(
-    urlRedirect = oneNewsDomain.tittle,
+    urlRedirect = oneNewsDomain.urlRedirect,
     urlImg = oneNewsDomain.urlImg,
     tittle = oneNewsDomain.tittle,
     timestamp = oneNewsDomain.timestamp,

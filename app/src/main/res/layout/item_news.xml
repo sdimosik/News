@@ -1,61 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="150dp"
     android:layout_height="250dp"
     android:layout_marginTop="10dp"
     android:layout_marginEnd="12dp"
-    app:cardCornerRadius="16dp">
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:clickable="true"
+    android:focusable="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/background_card"
+        android:foreground="@drawable/item_news_background"
+        android:scaleType="center"
+        tools:src="@drawable/news_placeholder" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/background_card"
-            android:foreground="@drawable/item_news_background"
-            android:scaleType="center"
-            tools:src="@drawable/test_background" />
+    <TextView
+        android:id="@+id/tittle"
+        style="@style/TextView.Default.PrimaryActive.L"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:ellipsize="end"
+        android:gravity="right"
+        android:maxLines="9"
+        app:layout_constraintBottom_toTopOf="@+id/time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/center_guideline"
+        tools:ignore="RtlHardcoded"
+        tools:text="С другой стороны рамки и место обучения кадров способствует подготовки и реализации модели развития. С другой стороны " />
 
-        <TextView
-            android:id="@+id/tittle"
-            style="@style/TextView.Default.PrimaryActive.L"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:ellipsize="end"
-            android:gravity="right"
-            android:maxLines="9"
-            app:layout_constraintBottom_toTopOf="@+id/time"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/center_guideline"
-            tools:ignore="RtlHardcoded"
-            tools:text="С другой стороны рамки и место обучения кадров способствует подготовки и реализации модели развития. С другой стороны " />
+    <TextView
+        android:id="@+id/time"
+        style="@style/TextView.Default.PrimaryActive.XXXS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="14 May 19:00" />
 
-        <TextView
-            android:id="@+id/time"
-            style="@style/TextView.Default.PrimaryActive.XXXS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="14 May 19:00" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/center_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/center_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.15" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

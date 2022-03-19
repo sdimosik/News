@@ -2,8 +2,11 @@ package com.sdimosikvip.news.ui.home
 
 import android.app.Activity
 import android.os.Parcelable
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.sdimosikvip.news.R
@@ -22,6 +25,7 @@ object MainDelegates {
         glide: RequestManager,
         scrollStates: MutableMap<Int, Parcelable>,
         sharedViewPool: RecyclerView.RecycledViewPool,
+        onClick: (ItemNews) -> Unit
     ) =
         adapterDelegateViewBinding<ItemListNews, BaseDiffModel, LayoutHorizontalRecyclerWithViewBinding>(
             viewBinding = { layoutInflater, parent ->
@@ -31,15 +35,18 @@ object MainDelegates {
 
             // onCreateViewHolder
             val snapHelper = StartSnapHelper()
-            val adapter = NestedHomeAdapter(glide)
-            binding.recyclerView.setRecycledViewPool(sharedViewPool)
-            binding.recyclerView.adapter = adapter
-            binding.recyclerView.setHasFixedSize(true)
+            val nestedAdapter = NestedHomeAdapter(glide, onClick)
+            binding.recyclerView.apply {
+                setRecycledViewPool(sharedViewPool)
+                adapter = nestedAdapter
+                setHasFixedSize(true)
+                setItemViewCacheSize(10)
+            }
 
             bind {
                 snapHelper.attachToRecyclerView(binding.recyclerView)
                 binding.tittle.text = item.tittle
-                adapter.apply {
+                nestedAdapter.apply {
                     items = item.list
                 }
             }
@@ -51,14 +58,27 @@ object MainDelegates {
             }
         }
 
-    fun newsDelegate(glide: RequestManager) =
+    fun newsDelegate(
+        glide: RequestManager,
+        onClick: (ItemNews) -> Unit
+    ) =
         adapterDelegateViewBinding<ItemNews, BaseDiffModel, ItemNewsBinding>(
             { layoutInflater, parent -> ItemNewsBinding.inflate(layoutInflater, parent, false) }
         ) {
+
+            binding.root.setOnClickListener {
+                onClick(item)
+            }
+
             bind {
+                val resources = binding.root.resources
                 binding.tittle.text = item.tittle
                 binding.time.text = item.timestampString
                 glide.load(item.urlImg)
+                    .transform(
+                        CenterCrop(),
+                        RoundedCorners(resources.getDimensionPixelOffset(R.dimen.news_item_radius))
+                    )
                     .transition(withCrossFade())
                     .placeholder(R.drawable.news_placeholder)
                     .into(binding.imageView)
@@ -81,8 +101,8 @@ object MainDelegates {
                 )
             }
         ) {
-            bind {
-                binding.root.startShimmer()
-            }
+            val animation =
+                AnimationUtils.loadAnimation(binding.root.context, R.anim.progress_fade_out)
+            binding.root.startAnimation(animation)
         }
 }

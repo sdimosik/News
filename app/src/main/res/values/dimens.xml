@@ -10,4 +10,6 @@
     <dimen name="sp_XS">12sp</dimen>
     <dimen name="sp_XXS">11sp</dimen>
     <dimen name="sp_XXXS">7sp</dimen>
+
+    <dimen name="news_item_radius">16dp</dimen>
 </resources>

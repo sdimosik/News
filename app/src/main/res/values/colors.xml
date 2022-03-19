@@ -23,4 +23,8 @@
     <color name="red">#B22424</color>
 
     <color name="shimmer">#8E8E8E</color>
+    <color name="blue">#42AAFF</color>
+    <color name="green">#2E8B57</color>
+    <color name="dark_blue">#002F55</color>
+    <color name="light_blue">#B0E0E6</color>
 </resources>
