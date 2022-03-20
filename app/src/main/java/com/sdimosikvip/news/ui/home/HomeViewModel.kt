@@ -10,6 +10,7 @@ import com.sdimosikvip.news.mapper.newsDomainToItemNews
 import com.sdimosikvip.news.model.ItemListNews
 import com.sdimosikvip.news.model.ProgressItemNews
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -17,20 +18,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val newsInteractor: NewsInteractor
+    private val newsInteractor: NewsInteractor,
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel() {
 
     private val _list = MutableLiveData<List<ItemListNews>>()
     val list: LiveData<List<ItemListNews>> = _list
-
     val scrollStates = mutableMapOf<Int, Parcelable>()
 
     init {
-        viewModelScope.launch() {
-            withContext(Dispatchers.IO) {
-                _list.postValue(getLoaderItems())
+        update(true)
+    }
+
+    fun update(isInit: Boolean) {
+        viewModelScope.launch(handlerException) {
+            withContext(defaultDispatcher) {
+                if (isInit) {
+                    _list.postValue(getLoaderItems())
+                } else {
+                    setLoading()
+                }
                 val items = getItems()
                 _list.postValue(items)
+                hideLoading()
             }
         }
     }

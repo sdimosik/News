@@ -4,7 +4,13 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.view.View
+import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.transition.Fade
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
+import com.airbnb.lottie.LottieAnimationView
 
 fun Context.browse(url: String) {
     try {
@@ -25,5 +31,25 @@ fun Context.browse(url: String) {
         val builder = CustomTabsIntent.Builder()
         val customTabsIntent = builder.build()
         customTabsIntent.launchUrl(this, webpage)
+    }
+}
+
+fun View.fadeVisibility(visibility: Int, duration: Long = 400) {
+    val transition: Transition = Fade()
+    transition.duration = duration
+    transition.addTarget(this)
+    TransitionManager.beginDelayedTransition(this.parent as ViewGroup, transition)
+    this.visibility = visibility
+}
+
+fun LottieAnimationView.fadeVisibility(visibility: Int, duration: Long = 400) {
+    val transition: Transition = Fade()
+    transition.duration = duration
+    transition.addTarget(this)
+    TransitionManager.beginDelayedTransition(this.parent as ViewGroup, transition)
+    this.visibility = visibility
+    when (visibility) {
+        View.VISIBLE -> this.playAnimation()
+        else -> this.pauseAnimation()
     }
 }

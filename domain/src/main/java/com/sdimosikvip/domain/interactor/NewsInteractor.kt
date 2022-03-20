@@ -56,8 +56,7 @@ class NewsInteractorImpl @Inject constructor(
                         listDef.add(deferred)
                     }
                 }
-
-            return@coroutineScope listDef.awaitAll()
+            return@coroutineScope listDef.awaitAll().filter { it.list.isNotEmpty() }
         }
     }
 }

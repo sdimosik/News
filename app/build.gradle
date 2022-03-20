@@ -80,6 +80,8 @@ dependencies {
     implementation Shimmer.facebook_shimmer
     implementation Shimmer.shimmer_recyclerview
 
+    implementation Multithreading.single_event
+
     implementation AdapterDelegate.dsl
     implementation AdapterDelegate.viewbinding
 
@@ -92,6 +94,7 @@ dependencies {
     implementation Other.timber
     implementation Other.threetenabp
     implementation Other.chart
+    implementation Other.loading_button
 
     androidTestImplementation UnitTest.junit4
     androidTestImplementation UnitTest.junit_ext

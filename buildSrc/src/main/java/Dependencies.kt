@@ -96,10 +96,12 @@ object DB {
 
 object Multithreading {
     private const val coroutines_version = "1.6.0"
+    private const val single_event_version = "1.3.0"
 
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     const val coroutines_android =
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    const val single_event = "com.github.hadilq:live-event:$single_event_version"
 }
 
 object Google {
@@ -156,10 +158,12 @@ object Other {
     private const val timber_version = "5.0.1"
     private const val threetenabp_version = "1.3.1"
     private const val chart_version = "v3.1.0"
+    private const val loading_button_version = "2.2.0"
 
     const val alert = "com.github.tapadoo:alerter:$alert_version"
     const val toast = "com.github.GrenderG:Toasty:$toast_version"
     const val timber = "com.jakewharton.timber:timber:$timber_version"
     const val threetenabp = "com.jakewharton.threetenabp:threetenabp:$threetenabp_version"
     const val chart = "com.github.PhilJay:MPAndroidChart:$chart_version"
+    const val loading_button = "br.com.simplepass:loading-button-android:$loading_button_version"
 }

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">News</string>
     <string name="background_card">background_card</string>
+    <string name="network_no_connection_error_message">No internet connection</string>
+    <string name="generic_error_message">Something went wrong</string>
+    <string name="empty_data">Empty data. Try again :(</string>
 </resources>
