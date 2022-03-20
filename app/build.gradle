@@ -59,6 +59,7 @@ dependencies {
     implementation Androidx.swipe_to_refresh_layout
     implementation Androidx.coordinatorlayout
     implementation Androidx.browser
+    implementation Androidx.paging
 
     implementation Google.material
 

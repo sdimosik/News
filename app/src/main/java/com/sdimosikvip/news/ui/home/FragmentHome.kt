@@ -12,11 +12,16 @@ import com.sdimosikvip.news.databinding.FragmentHomeBinding
 import com.sdimosikvip.news.utils.extensions.browse
 import com.sdimosikvip.news.utils.extensions.fadeVisibility
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class FragmentHome : BaseFragment(R.layout.fragment_home) {
+
+    companion object {
+        const val TAG = "FragmentHome"
+    }
 
     override val binding by viewBinding(FragmentHomeBinding::bind)
     private val homeViewModel by viewModels<HomeViewModel>()
@@ -44,6 +49,15 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
                 setHasFixedSize(true)
                 setItemViewCacheSize(20)
             }
+
+            buttonTryAgain.setOnClickListener {
+                val state = homeViewModel.state.value
+                if (state is BaseViewModel.State.IsLoading && state.isLoading) {
+                    return@setOnClickListener
+                }
+
+                homeViewModel.update(false)
+            }
         }
     }
 
@@ -57,10 +71,21 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
             }
         }
 
-        homeViewModel.action.observe(viewLifecycleOwner) { state ->
+        homeViewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
+                is BaseViewModel.State.Init -> {
+                    Timber.tag(TAG).d("state: init")
+                }
+                is BaseViewModel.State.IsLoading -> {
+                    Timber.tag(TAG).d("state: loading ${state.isLoading}")
+                }
+            }
+        }
+
+        homeViewModel.action.observe(viewLifecycleOwner) { action ->
+            when (action) {
                 is BaseViewModel.Action.ShowToast -> {
-                    showError(getString(state.messageRes))
+                    showError(getString(action.messageRes))
                 }
             }
         }
@@ -70,11 +95,11 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
         if (isEmpty) {
             binding.recyclerView.fadeVisibility(View.INVISIBLE)
             binding.cardEmptyData.fadeVisibility(View.VISIBLE)
-            binding.textviewEmpty.fadeVisibility(View.VISIBLE)
+            binding.buttonTryAgain.fadeVisibility(View.VISIBLE)
         } else {
             binding.recyclerView.fadeVisibility(View.VISIBLE)
             binding.cardEmptyData.fadeVisibility(View.INVISIBLE)
-            binding.textviewEmpty.fadeVisibility(View.INVISIBLE)
+            binding.buttonTryAgain.fadeVisibility(View.INVISIBLE)
         }
     }
 }
