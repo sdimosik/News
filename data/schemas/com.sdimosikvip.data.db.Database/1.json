@@ -1,0 +1,135 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "08507e60c102750c00f674ccf35b9123",
+    "entities": [
+      {
+        "tableName": "cache_news",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`url_redirect` TEXT NOT NULL, `url_img` TEXT NOT NULL, `tittle` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `timestamp_string` TEXT NOT NULL, `description` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "urlRedirect",
+            "columnName": "url_redirect",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "urlImg",
+            "columnName": "url_img",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tittle",
+            "columnName": "tittle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestampString",
+            "columnName": "timestamp_string",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_cache_news_url_redirect",
+            "unique": true,
+            "columnNames": [
+              "url_redirect"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_cache_news_url_redirect` ON `${TABLE_NAME}` (`url_redirect`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "cache_news_with_category",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_news` INTEGER NOT NULL, `category` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`id_news`) REFERENCES `cache_news`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "idNews",
+            "columnName": "id_news",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_cache_news_with_category_id_news_category",
+            "unique": true,
+            "columnNames": [
+              "id_news",
+              "category"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_cache_news_with_category_id_news_category` ON `${TABLE_NAME}` (`id_news`, `category`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "cache_news",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "id_news"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '08507e60c102750c00f674ccf35b9123')"
+    ]
+  }
+}

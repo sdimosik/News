@@ -10,6 +10,7 @@ class ArticlesMapper : BaseUnidirectionalMapper<Article, OneNewsDomain> {
         urlRedirect = o.url,
         urlImg = o.urlToImage,
         tittle = o.title,
-        timestamp = getTimestampFromNewsArticle(o.publishedAt)
+        timestamp = getTimestampFromNewsArticle(o.publishedAt),
+        description = (o.description as? String) ?: ""
     )
 }

@@ -3,7 +3,7 @@ package com.sdimosikvip.common.model
 import com.google.gson.annotations.SerializedName
 
 enum class AvailableCategory(
-    val value: String
+    val value: String,
 ) {
     @SerializedName("business") BUSINESS("Business \uD83D\uDCBC"),
     @SerializedName("entertainment") ENTERTAINMENT("Entertainment \uD83D\uDC40"),

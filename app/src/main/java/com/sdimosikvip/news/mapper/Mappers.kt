@@ -16,5 +16,6 @@ fun oneNewsDomainToItemNews(oneNewsDomain: OneNewsDomain): ItemNews = ItemNews(
     urlImg = oneNewsDomain.urlImg,
     tittle = oneNewsDomain.tittle,
     timestamp = oneNewsDomain.timestamp,
-    timestampString = formatDayMonthTime(oneNewsDomain.timestamp)
+    timestampString = formatDayMonthTime(oneNewsDomain.timestamp),
+    description = oneNewsDomain.description
 )

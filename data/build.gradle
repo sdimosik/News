@@ -15,6 +15,12 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
+
         buildConfigField "String", "PARAMETR_API_TOKET_NEWS", "\"apiKey\""
         buildConfigField "String", "API_TOKEN_NEWS", "\"165d38f241ef43fea8e88145c9253c00\""
         buildConfigField "String", "BASE_URL_NEWS", "\"https://newsapi.org/v2/\""
