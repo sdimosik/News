@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="SearchStyleText" parent="TextView.Semi.Active.M" />
+
     <style name="Recycler.Default" parent="Widget.AppCompat.ListView">
         <item name="android:overScrollMode">never</item>
         <item name="android:clipToPadding">false</item>

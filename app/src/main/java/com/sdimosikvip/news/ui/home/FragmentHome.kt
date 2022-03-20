@@ -94,10 +94,12 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
     private fun controlIfDataEmpty(isEmpty: Boolean) {
         if (isEmpty) {
             binding.recyclerView.fadeVisibility(View.INVISIBLE)
+            binding.frgHomeSearchContainer.fadeVisibility(View.INVISIBLE)
             binding.cardEmptyData.fadeVisibility(View.VISIBLE)
             binding.buttonTryAgain.fadeVisibility(View.VISIBLE)
         } else {
             binding.recyclerView.fadeVisibility(View.VISIBLE)
+            binding.frgHomeSearchContainer.fadeVisibility(View.VISIBLE)
             binding.cardEmptyData.fadeVisibility(View.INVISIBLE)
             binding.buttonTryAgain.fadeVisibility(View.INVISIBLE)
         }

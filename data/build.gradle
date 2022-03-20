@@ -22,7 +22,7 @@ android {
         }
 
         buildConfigField "String", "PARAMETR_API_TOKET_NEWS", "\"apiKey\""
-        buildConfigField "String", "API_TOKEN_NEWS", "\"b16eb8ba3f0948239f1b663ab5231f6b\""
+        buildConfigField "String", "API_TOKEN_NEWS", "\"ae131be65d7a44929445cb39ebe7a86f\""
         buildConfigField "String", "BASE_URL_NEWS", "\"https://newsapi.org/v2/\""
     }
 

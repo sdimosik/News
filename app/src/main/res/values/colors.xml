@@ -27,4 +27,5 @@
     <color name="green">#2E8B57</color>
     <color name="dark_blue">#002F55</color>
     <color name="light_blue">#B0E0E6</color>
+    <color name="ripple">#DADADA</color>
 </resources>
