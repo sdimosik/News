@@ -8,7 +8,6 @@ import com.hadilq.liveevent.LiveEvent
 import com.sdimosikvip.common.exceptions.NoConnectionException
 import com.sdimosikvip.news.R
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.MutableSharedFlow
 import timber.log.Timber
 
 abstract class BaseViewModel() : ViewModel() {
