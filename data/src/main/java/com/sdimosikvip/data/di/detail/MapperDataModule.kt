@@ -1,6 +1,9 @@
 package com.sdimosikvip.data.di.detail
 
+import com.sdimosikvip.common.mapper.BaseBidirectionalMapper
 import com.sdimosikvip.common.mapper.BaseUnidirectionalMapper
+import com.sdimosikvip.data.db.mapper.NewsDBMapper
+import com.sdimosikvip.data.db.model.NewsDB
 import com.sdimosikvip.data.network.mapper.ArticlesMapper
 import com.sdimosikvip.data.network.mapper.NewsMapper
 import com.sdimosikvip.data.network.model.Article
@@ -25,4 +28,8 @@ class MapperDataModule {
     fun provideNewsMapper(
         articlesMapper: BaseUnidirectionalMapper<Article, OneNewsDomain>
     ): BaseUnidirectionalMapper<NewsResponse, NewsDomain> = NewsMapper(articlesMapper)
+
+    @Provides
+    @Singleton
+    fun provideNewsDBMapper(): BaseBidirectionalMapper<NewsDB, OneNewsDomain> = NewsDBMapper()
 }

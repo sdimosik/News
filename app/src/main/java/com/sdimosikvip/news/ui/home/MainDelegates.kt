@@ -1,9 +1,12 @@
 package com.sdimosikvip.news.ui.home
 
 import android.app.Activity
+import android.graphics.drawable.Drawable
 import android.os.Parcelable
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -18,6 +21,7 @@ import com.sdimosikvip.news.databinding.LayoutHorizontalRecyclerWithViewBinding
 import com.sdimosikvip.news.model.ItemListNews
 import com.sdimosikvip.news.model.ItemNews
 import com.sdimosikvip.news.model.ProgressItemNews
+
 
 object MainDelegates {
 
@@ -40,7 +44,6 @@ object MainDelegates {
                 setRecycledViewPool(sharedViewPool)
                 adapter = nestedAdapter
                 setHasFixedSize(true)
-                setItemViewCacheSize(10)
             }
 
             bind {
@@ -48,12 +51,6 @@ object MainDelegates {
                 binding.tittle.text = item.tittle
                 nestedAdapter.apply {
                     items = item.list
-                }
-            }
-
-            onViewRecycled {
-                binding.recyclerView.layoutManager?.onSaveInstanceState()?.let {
-                    scrollStates[bindingAdapterPosition] = it
                 }
             }
         }
@@ -69,12 +66,17 @@ object MainDelegates {
             binding.root.setOnClickListener {
                 onClick(item)
             }
+            val requestBuilder: RequestBuilder<Drawable> =
+                Glide.with(binding.root.context)
+                    .asDrawable().sizeMultiplier(0.05f)
 
             bind {
                 val resources = binding.root.resources
                 binding.tittle.text = item.tittle
                 binding.time.text = item.timestampString
+
                 glide.load(item.urlImg)
+                    .thumbnail(requestBuilder)
                     .transform(
                         CenterCrop(),
                         RoundedCorners(resources.getDimensionPixelOffset(R.dimen.news_item_radius))
@@ -82,8 +84,8 @@ object MainDelegates {
                     .transition(withCrossFade())
                     .placeholder(R.drawable.news_placeholder)
                     .into(binding.imageView)
-
             }
+
             onViewRecycled {
                 if ((binding.imageView.context as? Activity)?.isDestroyed?.not() == true) {
                     glide.clear(binding.imageView)

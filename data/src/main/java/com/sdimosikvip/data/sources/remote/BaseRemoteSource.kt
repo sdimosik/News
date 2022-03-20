@@ -24,9 +24,37 @@ abstract class BaseRemoteSource {
                 val body = response.body()
 
                 if (body != null) {
-                    return Outcome.Success(
-                        mapper.transform(body)
-                    )
+                    return Outcome.Success(mapper.transform(body))
+                }
+            }
+
+            if (!isConnected) {
+                return Outcome.Failure(NoConnectionException())
+            }
+
+            return when (response.code()) {
+                in 400..499 -> Outcome.Failure(ClientException())
+                in 500..599 -> Outcome.Failure(ServerException())
+                else -> Outcome.Failure(UncheckedException())
+            }
+        } catch (e: Exception) {
+            return Outcome.Failure(e)
+        }
+    }
+
+    protected suspend fun <R> getResult(
+        connectionManager: ConnectionManager,
+        call: suspend () -> Response<R>,
+    ): Outcome<R> {
+        try {
+            val isConnected = connectionManager.isConnected()
+
+            val response = call()
+            if (response.isSuccessful) {
+                val body = response.body()
+
+                if (body != null) {
+                    return Outcome.Success(body)
                 }
             }
 

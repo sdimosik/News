@@ -8,7 +8,7 @@ import com.sdimosikvip.domain.model.OneNewsDomain
 class ArticlesMapper : BaseUnidirectionalMapper<Article, OneNewsDomain> {
     override fun transform(o: Article): OneNewsDomain = OneNewsDomain(
         urlRedirect = o.url,
-        urlImg = o.urlToImage,
+        urlImg = (o.urlToImage as? String) ?: "",
         tittle = o.title,
         timestamp = getTimestampFromNewsArticle(o.publishedAt),
         description = (o.description as? String) ?: ""

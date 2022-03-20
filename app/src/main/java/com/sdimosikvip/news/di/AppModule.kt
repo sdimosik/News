@@ -8,7 +8,6 @@ import com.sdimosikvip.data.network.ConnectionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -19,15 +18,15 @@ interface AppModule {
     companion object {
         @Provides
         @Singleton
-        fun provideGlide(@ApplicationContext context: Context): RequestManager = Glide.with(context)
+        fun provideGlide(context: Context): RequestManager = Glide.with(context)
 
         @Provides
         @Singleton
-        fun provideContext(@ApplicationContext app: Application): Context = app.applicationContext
+        fun provideContext(app: Application): Context = app.applicationContext
 
         @Provides
         @Singleton
-        fun provideConnectionManager(@ApplicationContext context: Context): ConnectionManager =
+        fun provideConnectionManager(context: Context): ConnectionManager =
             ConnectionManager(context)
     }
 }

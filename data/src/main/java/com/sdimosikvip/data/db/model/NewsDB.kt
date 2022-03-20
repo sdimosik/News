@@ -16,7 +16,6 @@ data class NewsDB(
     @ColumnInfo(name = "url_img") val urlImg: String,
     @ColumnInfo(name = "tittle") val tittle: String,
     @ColumnInfo(name = "timestamp") val timestamp: Long,
-    @ColumnInfo(name = "timestamp_string") val timestampString: String,
     @ColumnInfo(name = "description") val description: String,
 ) {
 

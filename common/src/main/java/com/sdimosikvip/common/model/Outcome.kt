@@ -17,3 +17,9 @@ fun <T> Outcome<T>.requireValue(): T =
         is Outcome.Success -> value
         is Outcome.Failure -> throw cause
     }
+
+fun <T> Outcome<T>.requireError(): Throwable =
+    when (this) {
+        is Outcome.Success -> throw UnsupportedOperationException()
+        is Outcome.Failure -> cause
+    }

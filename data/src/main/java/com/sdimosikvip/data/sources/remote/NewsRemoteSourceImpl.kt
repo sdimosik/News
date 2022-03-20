@@ -1,12 +1,10 @@
 package com.sdimosikvip.data.sources.remote
 
 import com.sdimosikvip.common.mapper.BaseUnidirectionalMapper
-import com.sdimosikvip.common.model.AvailableCategory
-import com.sdimosikvip.common.model.AvailableCountry
-import com.sdimosikvip.common.model.AvailableLanguage
-import com.sdimosikvip.common.model.Outcome
+import com.sdimosikvip.common.model.*
 import com.sdimosikvip.data.network.ConnectionManager
 import com.sdimosikvip.data.network.NewsApiService
+import com.sdimosikvip.data.network.mapper.NewsMapper
 import com.sdimosikvip.data.network.model.NewsResponse
 import com.sdimosikvip.domain.model.NewsDomain
 import kotlinx.coroutines.CoroutineDispatcher
@@ -26,12 +24,21 @@ class NewsRemoteSourceImpl @Inject constructor(
         language: AvailableLanguage,
         country: AvailableCountry?
     ): Outcome<NewsDomain> = withContext(defaultDispatcher) {
-        getResult(connectionManager, newsMapper) {
+        val res = getResult(connectionManager) {
             newsApiService.getTopHeadLines(
                 category,
                 language,
                 country,
             )
         }
+        val mapper = (newsMapper as NewsMapper)
+        return@withContext if (res is Outcome.Success) {
+            Outcome.Success(
+                mapper.transformManual(
+                    res.requireValue(),
+                    category
+                )
+            )
+        } else Outcome.Failure(res.requireError())
     }
 }
