@@ -18,6 +18,7 @@ object Androidx {
     private const val swipe_to_refresh_layout_version = "1.1.0"
     private const val coordinatorlayout_version = "1.2.0"
     private const val browser_version = "1.3.0"
+    private const val paging_version = "3.1.1"
 
     const val core_ktx = "androidx.core:core-ktx:$core_ktx_version"
     const val app_compat = "androidx.appcompat:appcompat:$app_compat_version"
@@ -37,6 +38,7 @@ object Androidx {
     const val coordinatorlayout =
         "androidx.coordinatorlayout:coordinatorlayout:$coordinatorlayout_version"
     const val browser = "androidx.browser:browser:$browser_version"
+    const val paging = "androidx.paging:paging-runtime:$paging_version"
 
 }
 
