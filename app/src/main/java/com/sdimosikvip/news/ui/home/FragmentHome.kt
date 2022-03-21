@@ -36,8 +36,10 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
     private val homeAdapter by lazy {
         MainHomeAdapter(
             glide,
-            homeViewModel.scrollStates
-        ) { requireContext().browse(it.urlRedirect) }
+            homeViewModel.scrollStates,
+            homeViewModel.advancedLoading,
+            onReadyToLoadMore = { category, page, pageSize -> homeViewModel.loadMore(category, page, pageSize) },
+            onClick = { requireContext().browse(it.urlRedirect) })
     }
 
     private val snapHelper by lazy {
@@ -52,6 +54,7 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
                 swapAdapter(homeAdapter, true)
                 setHasFixedSize(true)
                 setItemViewCacheSize(20)
+                itemAnimator = null
             }
 
             buttonTryAgain.setOnClickListener {

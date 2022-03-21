@@ -8,6 +8,8 @@ import com.sdimosikvip.domain.model.NewsDomain
 interface NewsRepository {
 
     suspend fun getTopHeadLines(
+        page: Int,
+        pageSize: Int,
         category: AvailableCategory,
         language: AvailableLanguage,
         country: AvailableCountry?,

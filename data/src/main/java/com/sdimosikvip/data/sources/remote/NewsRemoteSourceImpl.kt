@@ -20,12 +20,16 @@ class NewsRemoteSourceImpl @Inject constructor(
 ) : NewsRemoteSource, BaseRemoteSource() {
 
     override suspend fun getTopHeadLines(
+        page: Int,
+        pageSize: Int,
         category: AvailableCategory,
         language: AvailableLanguage,
         country: AvailableCountry?
     ): Outcome<NewsDomain> = withContext(defaultDispatcher) {
         val res = getResult(connectionManager) {
             newsApiService.getTopHeadLines(
+                page,
+                pageSize,
                 category,
                 language,
                 country,

@@ -22,22 +22,26 @@ class NewsRepositoryImpl @Inject constructor(
 ) : NewsRepository {
 
     override suspend fun getTopHeadLines(
+        page: Int,
+        pageSize: Int,
         category: AvailableCategory,
         language: AvailableLanguage,
         country: AvailableCountry?
     ): NewsDomain {
 
-          if (!connection.isConnected()) {
-              val localListCache =
-                  localSource.getNewsByCategory(category).map { newsDBMapper.transform(it) }
-              return NewsDomain(localListCache, category)
-          }
+        return remoteSource.getTopHeadLines(page, pageSize, category, language, country)
+            .requireValue()
+        /*if (!connection.isConnected()) {
+            val localListCache =
+                localSource.getNewsByCategory(category).map { newsDBMapper.transform(it) }
+            return NewsDomain(localListCache, category)
+        }
 
-          val newsDomain = remoteSource.getTopHeadLines(category, language, country).requireValue()
-          newsDomain.list.forEach {
-              localSource.cacheNews(newsDBMapper.reverseTransform(it), newsDomain.category)
-          }
-          localSource.deleteManual()
-          return newsDomain
+        val newsDomain = remoteSource.getTopHeadLines(category, language, country).requireValue()
+        newsDomain.list.forEach {
+            localSource.cacheNews(newsDBMapper.reverseTransform(it), newsDomain.category)
+        }
+        localSource.deleteManual()
+        return newsDomain*/
     }
 }

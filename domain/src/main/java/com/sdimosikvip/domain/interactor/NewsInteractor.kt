@@ -14,6 +14,8 @@ import javax.inject.Inject
 
 interface NewsInteractor {
     suspend fun getOneHotNews(
+        page: Int,
+        pageSize: Int,
         category: AvailableCategory,
         language: AvailableLanguage = AvailableLanguage.EN,
         country: AvailableCountry? = null,
@@ -29,11 +31,13 @@ class NewsInteractorImpl @Inject constructor(
     private val newsRepository: NewsRepository
 ) : NewsInteractor {
     override suspend fun getOneHotNews(
+        page: Int,
+        pageSize: Int,
         category: AvailableCategory,
         language: AvailableLanguage,
         country: AvailableCountry?
     ): NewsDomain {
-        return newsRepository.getTopHeadLines(category, language, country)
+        return newsRepository.getTopHeadLines(page, pageSize, category, language, country)
     }
 
     override suspend fun getAllHotNews(
@@ -47,7 +51,7 @@ class NewsInteractorImpl @Inject constructor(
                 .sortedBy { it.value }
                 .forEach {
                     val deferred = async {
-                        val response = newsRepository.getTopHeadLines(it, language, country)
+                        val response = newsRepository.getTopHeadLines(1, 20, it, language, country)
                         response.list = response.list.sortedByDescending { it.timestamp }
                         response.category = it
                         return@async response

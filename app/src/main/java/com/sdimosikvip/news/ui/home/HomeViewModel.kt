@@ -27,6 +27,9 @@ class HomeViewModel @Inject constructor(
     val news: LiveData<List<ItemListNews>> = _news
     val scrollStates = mutableMapOf<Int, Parcelable>()
 
+    private val _advancedLoading = MutableLiveData(false)
+    val advancedLoading: LiveData<Boolean> = _advancedLoading
+
     init {
         init()
     }
@@ -49,6 +52,42 @@ class HomeViewModel @Inject constructor(
                 val items = getItems()
                 _news.postValue(items)
                 hideLoading()
+            }
+        }
+    }
+
+
+    fun loadMore(category: AvailableCategory, page: Int, pageSize: Int) {
+        viewModelScope.launch(handlerException) {
+            withContext(defaultDispatcher) {
+                val items =
+                    newsDomainToItemNews(newsInteractor.getOneHotNews(page, pageSize, category))
+                synchronized(HomeViewModel::class) {
+                    _advancedLoading.postValue(true)
+                    val list = _news.value!!
+                    var res: ItemListNews? = null
+                    for (i in 0 until list.size) {
+                        if (list[i].category != category) continue
+                        res = ItemListNews(
+                            list[i].list.plus(items.list),
+                            list[i].tittle,
+                            list[i].category
+                        )
+                    }
+
+                    if (res != null) {
+                        val newList: MutableList<ItemListNews> = mutableListOf()
+                        for (i in 0 until list.size) {
+                            if (list[i].category != category) {
+                                newList.add(list[i])
+                            } else {
+                                newList.add(res)
+                            }
+                        }
+                        _news.postValue(newList)
+                    }
+                    _advancedLoading.postValue(false)
+                }
             }
         }
     }

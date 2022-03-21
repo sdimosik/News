@@ -12,6 +12,8 @@ interface NewsApiService {
 
     @GET("top-headlines")
     suspend fun getTopHeadLines(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
         @Query("category") category: AvailableCategory,
         @Query("language") language: AvailableLanguage,
         @Query("country") country: AvailableCountry?,

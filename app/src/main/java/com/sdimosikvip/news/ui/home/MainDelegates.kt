@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.os.Parcelable
 import android.view.animation.AnimationUtils
 import android.widget.AbsListView
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
+import com.sdimosikvip.common.model.AvailableCategory
 import com.sdimosikvip.news.R
 import com.sdimosikvip.news.base.BaseDiffModel
 import com.sdimosikvip.news.base.StartSnapHelper
@@ -31,6 +33,8 @@ object MainDelegates {
         glide: RequestManager,
         scrollStates: MutableMap<Int, Parcelable>,
         sharedViewPool: RecyclerView.RecycledViewPool,
+        advancedLoading: LiveData<Boolean>,
+        onReadyToLoadMore: (AvailableCategory, Int, Int) -> Unit,
         onClick: (ItemNews) -> Unit
     ) =
         adapterDelegateViewBinding<ItemListNews, BaseDiffModel, LayoutHorizontalRecyclerWithViewBinding>(
@@ -38,13 +42,51 @@ object MainDelegates {
                 LayoutHorizontalRecyclerWithViewBinding.inflate(layoutInflater, parent, false)
             },
         ) {
+
+            var isLastPage = false
+            var isScrolling = false
+            var page = 2
+            val pageSize = 20
+
+            val scrollListener = object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                    val visibleItemCount = layoutManager.childCount
+                    val totalItemCount = layoutManager.itemCount
+
+                    val isNotLoadingAndNotLastPage = !advancedLoading.value!!
+                    val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+                    val isNotAtBeginning = firstVisibleItemPosition >= 0
+                    val isTotalMoreThanVisible = totalItemCount >= pageSize
+                    val shouldPaginate =
+                        isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
+                                isTotalMoreThanVisible && isScrolling
+                    if (shouldPaginate) {
+                        onReadyToLoadMore(item.category, page, pageSize)
+                        page++
+                        isScrolling = false
+                    }
+                }
+
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                        isScrolling = true
+                    }
+                }
+            }
             val snapHelper = StartSnapHelper()
             val nestedAdapter = NestedHomeAdapter(glide, onClick)
             binding.recyclerView.apply {
                 setRecycledViewPool(sharedViewPool)
                 adapter = nestedAdapter
                 setHasFixedSize(true)
+                addOnScrollListener(scrollListener)
             }
+            binding.recyclerView.itemAnimator = null
 
             bind {
                 snapHelper.attachToRecyclerView(binding.recyclerView)

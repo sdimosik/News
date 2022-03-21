@@ -9,6 +9,8 @@ import com.sdimosikvip.domain.model.NewsDomain
 interface NewsRemoteSource {
 
     suspend fun getTopHeadLines(
+        page: Int,
+        pageSize: Int,
         category: AvailableCategory,
         language: AvailableLanguage,
         country: AvailableCountry?,
