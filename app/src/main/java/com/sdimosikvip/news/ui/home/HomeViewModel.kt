@@ -93,7 +93,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getItems(): List<ItemListNews> {
-        val result = newsInteractor.getAllHotNews()
+        val result = newsInteractor.initNews()
         return result.map { newsDomainToItemNews(it) }
     }
 

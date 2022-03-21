@@ -1,10 +1,7 @@
 package com.sdimosikvip.news.ui.home
 
 import android.view.View
-import android.widget.AbsListView
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.RequestManager
 import com.sdimosikvip.news.R
@@ -38,7 +35,13 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
             glide,
             homeViewModel.scrollStates,
             homeViewModel.advancedLoading,
-            onReadyToLoadMore = { category, page, pageSize -> homeViewModel.loadMore(category, page, pageSize) },
+            onReadyToLoadMore = { category, page, pageSize ->
+                homeViewModel.loadMore(
+                    category,
+                    page,
+                    pageSize
+                )
+            },
             onClick = { requireContext().browse(it.urlRedirect) })
     }
 
@@ -87,6 +90,10 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
                     Timber.tag(TAG).d("state: loading ${state.isLoading}")
                 }
             }
+        }
+
+        homeViewModel.advancedLoading.observe(viewLifecycleOwner) { value ->
+            Timber.tag(TAG).d("advanced loading: $value")
         }
 
         homeViewModel.action.observe(viewLifecycleOwner) { action ->

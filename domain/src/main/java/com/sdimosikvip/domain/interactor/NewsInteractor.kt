@@ -21,7 +21,7 @@ interface NewsInteractor {
         country: AvailableCountry? = null,
     ): NewsDomain
 
-    suspend fun getAllHotNews(
+    suspend fun initNews(
         language: AvailableLanguage = AvailableLanguage.EN,
         country: AvailableCountry? = null,
     ): MutableList<NewsDomain>
@@ -37,10 +37,10 @@ class NewsInteractorImpl @Inject constructor(
         language: AvailableLanguage,
         country: AvailableCountry?
     ): NewsDomain {
-        return newsRepository.getTopHeadLines(page, pageSize, category, language, country)
+        return newsRepository.getTopHeadLines(false, page, pageSize, category, language, country)
     }
 
-    override suspend fun getAllHotNews(
+    override suspend fun initNews(
         language: AvailableLanguage,
         country: AvailableCountry?
     ): MutableList<NewsDomain> {
@@ -51,7 +51,8 @@ class NewsInteractorImpl @Inject constructor(
                 .sortedBy { it.value }
                 .forEach {
                     val deferred = async {
-                        val response = newsRepository.getTopHeadLines(1, 20, it, language, country)
+                        val response =
+                            newsRepository.getTopHeadLines(true, 1, 20, it, language, country)
                         response.list = response.list.sortedByDescending { it.timestamp }
                         response.category = it
                         return@async response
