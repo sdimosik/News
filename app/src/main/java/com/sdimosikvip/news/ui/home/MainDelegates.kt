@@ -4,6 +4,8 @@ import android.app.Activity
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
 import android.view.animation.AnimationUtils
+import android.widget.AbsListView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
@@ -36,8 +38,6 @@ object MainDelegates {
                 LayoutHorizontalRecyclerWithViewBinding.inflate(layoutInflater, parent, false)
             },
         ) {
-
-            // onCreateViewHolder
             val snapHelper = StartSnapHelper()
             val nestedAdapter = NestedHomeAdapter(glide, onClick)
             binding.recyclerView.apply {

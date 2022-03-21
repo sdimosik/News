@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.sdimosikvip.common.model.AvailableCategory
 import com.sdimosikvip.domain.interactor.NewsInteractor
 import com.sdimosikvip.news.base.BaseViewModel
 import com.sdimosikvip.news.mapper.newsDomainToItemNews
@@ -22,24 +23,31 @@ class HomeViewModel @Inject constructor(
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel() {
 
-    private val _list = MutableLiveData<List<ItemListNews>>()
-    val list: LiveData<List<ItemListNews>> = _list
+    private val _news = MutableLiveData<List<ItemListNews>>()
+    val news: LiveData<List<ItemListNews>> = _news
     val scrollStates = mutableMapOf<Int, Parcelable>()
 
     init {
-        update(true)
+        init()
     }
 
-    fun update(isInit: Boolean) {
+    private fun init() {
         viewModelScope.launch(handlerException) {
             withContext(defaultDispatcher) {
-                if (isInit) {
-                    _list.postValue(getLoaderItems())
-                } else {
-                    setLoading()
-                }
+                _news.postValue(getLoaderItems())
                 val items = getItems()
-                _list.postValue(items)
+                _news.postValue(items)
+                hideLoading()
+            }
+        }
+    }
+
+    fun update() {
+        viewModelScope.launch(handlerException) {
+            withContext(defaultDispatcher) {
+                setLoading()
+                val items = getItems()
+                _news.postValue(items)
                 hideLoading()
             }
         }
@@ -50,19 +58,22 @@ class HomeViewModel @Inject constructor(
         return result.map { newsDomainToItemNews(it) }
     }
 
-    private suspend fun getLoaderItems(): List<ItemListNews> {
+    private fun getLoaderItems(): List<ItemListNews> {
         return listOf(
             ItemListNews(
                 tittle = "\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25",
-                list = IntRange(1, 3).map { ProgressItemNews }
+                list = IntRange(1, 3).map { ProgressItemNews },
+                category = AvailableCategory.BUSINESS
             ),
             ItemListNews(
                 tittle = "\uD83C\uDF0A\uD83C\uDF0A\uD83C\uDF0A",
-                list = IntRange(1, 3).map { ProgressItemNews }
+                list = IntRange(1, 3).map { ProgressItemNews },
+                category = AvailableCategory.BUSINESS
             ),
             ItemListNews(
                 tittle = "\uD83D\uDC9C\uD83D\uDC9C\uD83D\uDC9C",
-                list = IntRange(1, 3).map { ProgressItemNews }
+                list = IntRange(1, 3).map { ProgressItemNews },
+                category = AvailableCategory.BUSINESS
             )
         )
     }

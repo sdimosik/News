@@ -8,7 +8,8 @@ import com.sdimosikvip.news.utils.formatDayMonthTime
 
 fun newsDomainToItemNews(newsDomain: NewsDomain): ItemListNews = ItemListNews(
     list = newsDomain.list.map { oneNewsDomainToItemNews(it) },
-    tittle = newsDomain.category.value
+    tittle = newsDomain.category.value,
+    category = newsDomain.category
 )
 
 fun oneNewsDomainToItemNews(oneNewsDomain: OneNewsDomain): ItemNews = ItemNews(

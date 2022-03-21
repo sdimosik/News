@@ -1,7 +1,10 @@
 package com.sdimosikvip.news.ui.home
 
 import android.view.View
+import android.widget.AbsListView
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.RequestManager
 import com.sdimosikvip.news.R
@@ -22,6 +25,7 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
     companion object {
         const val TAG = "FragmentHome"
     }
+
 
     override val binding by viewBinding(FragmentHomeBinding::bind)
     private val homeViewModel by viewModels<HomeViewModel>()
@@ -56,7 +60,7 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
                     return@setOnClickListener
                 }
 
-                homeViewModel.update(false)
+                homeViewModel.update()
             }
         }
     }
@@ -64,7 +68,7 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
     override fun subscribe() {
         super.subscribe()
 
-        homeViewModel.list.observe(viewLifecycleOwner) {
+        homeViewModel.news.observe(viewLifecycleOwner) {
             controlIfDataEmpty(it.isEmpty())
             homeAdapter.apply {
                 items = it
@@ -94,12 +98,10 @@ class FragmentHome : BaseFragment(R.layout.fragment_home) {
     private fun controlIfDataEmpty(isEmpty: Boolean) {
         if (isEmpty) {
             binding.recyclerView.fadeVisibility(View.INVISIBLE)
-            binding.frgHomeSearchContainer.fadeVisibility(View.INVISIBLE)
             binding.cardEmptyData.fadeVisibility(View.VISIBLE)
             binding.buttonTryAgain.fadeVisibility(View.VISIBLE)
         } else {
             binding.recyclerView.fadeVisibility(View.VISIBLE)
-            binding.frgHomeSearchContainer.fadeVisibility(View.VISIBLE)
             binding.cardEmptyData.fadeVisibility(View.INVISIBLE)
             binding.buttonTryAgain.fadeVisibility(View.INVISIBLE)
         }

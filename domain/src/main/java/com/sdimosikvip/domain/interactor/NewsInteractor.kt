@@ -22,7 +22,7 @@ interface NewsInteractor {
     suspend fun getAllHotNews(
         language: AvailableLanguage = AvailableLanguage.EN,
         country: AvailableCountry? = null,
-    ): List<NewsDomain>
+    ): MutableList<NewsDomain>
 }
 
 class NewsInteractorImpl @Inject constructor(
@@ -39,7 +39,7 @@ class NewsInteractorImpl @Inject constructor(
     override suspend fun getAllHotNews(
         language: AvailableLanguage,
         country: AvailableCountry?
-    ): List<NewsDomain> {
+    ): MutableList<NewsDomain> {
 
         val listDef: MutableList<Deferred<NewsDomain>> = mutableListOf()
         return coroutineScope {
@@ -56,7 +56,10 @@ class NewsInteractorImpl @Inject constructor(
                         listDef.add(deferred)
                     }
                 }
-            return@coroutineScope listDef.awaitAll().filter { it.list.isNotEmpty() }
+            val res = mutableListOf<NewsDomain>()
+            res.addAll(
+                listDef.awaitAll().filter { it.list.isNotEmpty() })
+            return@coroutineScope res
         }
     }
 }
