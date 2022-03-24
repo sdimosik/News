@@ -26,7 +26,7 @@
 - Kotlin
 - Clean Arch
 - MVVM
-- Corutines
+- Coroutines
 - Retrofit 2
 - Room
 - Hilt
